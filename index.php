@@ -33,7 +33,7 @@ and open the template in the editor.
         <body>
 
             <form method="post"> <!--action="newfile.txt"-->
-                SerialNummer:<input name="idsn" type="number" ><br>
+                
                 
                 Voornaam: <input name="vnaam" type="text" placeholder="Mickey"  >
                 Midnaam: <input name="mnaam" type="text" placeholder="M"  > 
@@ -65,15 +65,29 @@ and open the template in the editor.
             </form>  
 
             <?php
-            $naam = $_POST['vnaam']." ". $_POST['mnaam']." " . $_POST['anaam'];
-            $gdatuml = $_POST['gdatum']." ".$_POST['gland'];
-            $gender = $_POST['gender']." ".$_POST['brugerlijk'];//$kind = $_POST['kind'];
-            $adres=$_POST['Woonadres']." ".$_POST['nummer']." ".$_POST['postcode']." ".$_POST['place']." ".$_POST['land'];
-            $tmail=$_POST['telefon']." ".$_POST['email'];
+            //include("klasform.php");
+            include("idn.php");
             
-
-
-            echo $naam.$gdatuml.$gender.$adres.$tmail;
+            
+            
+            //echo $naam.$gdatuml.$gender.$adres.$tmail;
+            //echo "the id serial ".$idfilen;
+            
+            $filnam= $_POST['vnaam'].$idfilen.".txt";
+            
+            $formfile = fopen($filnam, "w") or die("Unable to open file!");
+            $naam = $_POST['vnaam']." ". $_POST['mnaam']." " . $_POST['anaam']."\n";
+            fwrite($formfile, $naam);
+            $gdatuml = $_POST['gdatum']." ".$_POST['gland']."\n";
+            fwrite($formfile, $gdatuml);
+            $gender = $_POST['gender']." ".$_POST['brugerlijk']."\n"; //$kind = $_POST['kind'];
+            fwrite($formfile, $gender);
+            $adres=$_POST['Woonadres']." ".$_POST['nummer']." ".$_POST['postcode']." ".$_POST['place']." ".$_POST['land']."\n";
+            fwrite($formfile, $adres);
+            $tmail=$_POST['telefon']." ".$_POST['email']."\n";
+            fwrite($formfile, $tmail);
+            fclose($formfile);
+                    
             ?>
             <br>
 
